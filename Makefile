@@ -24,7 +24,7 @@ $(BUILD_DIR):
 	mkdir -p $(BUILD_DIR)
 
 # Default target
-.PHONY: help all clean run upload debug
+.PHONY: default help all clean run upload debug
 
 # Variable to enable or disable timing
 TIMING ?= no
@@ -35,6 +35,25 @@ ifneq ($(TIMING),no)
 else
 	TIME_CMD =
 endif
+
+# Default behavior
+default: all help
+
+all: $(HEX)
+
+# Ensure build directory is created before compiling and linking
+$(ELF): $(BUILD_DIR) $(OBJ)
+	$(TIME_CMD) avr-gcc $(LDFLAGS) -o $@ $(OBJ) -Wl,-Map,$(MAP)
+
+$(HEX): $(BUILD_DIR) $(ELF)
+	$(TIME_CMD) avr-objcopy -O ihex -R .eeprom $(ELF) $(HEX)
+
+$(BUILD_DIR)/%.o: %.c | $(BUILD_DIR)
+	$(TIME_CMD) avr-gcc $(CFLAGS) -c $< -o $@
+
+# Clean up build files
+clean:
+	rm -rf $(BUILD_DIR)
 
 help:
 ifeq ($(TIMING),yes)
@@ -64,18 +83,4 @@ else
 	@echo "  TIMING=yes  Enable timing for commands"
 	@echo "  TIMING=no"
 endif
-
-all: $(HEX)
-
-run: $(HEX)
-	@echo "Add commands to run your program here"
-
-upload: $(HEX)
-	avrdude -c arduino -p m328p -P COM3 -b 115200 -U flash:w:$(HEX)
-
-debug: $(ELF)
-    avr-gdb $(ELF)
-
-clean:
-	rm -rf $(BUILD_DIR)
 
