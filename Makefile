@@ -21,6 +21,7 @@ MAP = $(BUILD_DIR)/blink.map
 
 # Ensure build directory exists
 $(BUILD_DIR):
+	@echo "creating build directory if necessary"
 	mkdir -p $(BUILD_DIR)
 
 # Default target
