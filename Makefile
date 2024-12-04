@@ -52,10 +52,33 @@ $(HEX): $(BUILD_DIR) $(ELF)
 $(BUILD_DIR)/%.o: %.c | $(BUILD_DIR)
 	$(TIME_CMD) avr-gcc $(CFLAGS) -c $< -o $@
 
+
+# Run the program (simulate if needed)
+run: $(HEX)
+	@echo "Running the program... (placeholder - upload runs on target)"
+	# Add commands to run your program here, if needed
+
+# Upload the hex file to Arduino
+upload: $(HEX)
+	@if [ -z "$(AVRDUDE_PORT)" ]; then \
+		echo "Error: AVRDUDE_PORT is not set. Please set the AVRDUDE_PORT environment variable to the correct serial port."; \
+		exit 1; \
+	fi
+	@echo "Uploading $(HEX) to Arduino on port $(AVRDUDE_PORT)..."
+	avrdude -c arduino -p m328p -P $(AVRDUDE_PORT) -b 115200 -U flash:w:$(HEX)
+
+
+# Debug the program using GDB
+debug: $(ELF)
+	@echo "Starting remote GDB session..."
+	# Example command for remote debugging (customize as needed)
+	avr-gdb $(ELF) -ex "target remote :1234"
+
 # Clean up build files
 clean:
 	rm -rf $(BUILD_DIR)
 
+# this help is dumb, thanks copilot :p
 help:
 ifeq ($(TIMING),yes)
 	@echo "Usage: make [target] [TIMING=yes|no]"
@@ -70,6 +93,8 @@ ifeq ($(TIMING),yes)
 	@echo "Options:"
 	@echo "  TIMING=yes  Timing is currently enabled for commands (default is no)"
 	@echo "  TIMING=no   Disable timing for commands"
+	@echo ""
+	@echo "Note:  export AVRDUDE_PORT=/dev/ttyUSB0"
 else
 	@echo "Usage: make [target] [TIMING=yes|no]"
 	@echo "Targets:"
@@ -83,5 +108,7 @@ else
 	@echo "Options:"
 	@echo "  TIMING=yes  Enable timing for commands"
 	@echo "  TIMING=no"
+	@echo ""
+	@echo "Note:  export AVRDUDE_PORT=/dev/ttyUSB0"
 endif
 
