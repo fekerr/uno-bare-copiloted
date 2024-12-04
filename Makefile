@@ -62,5 +62,20 @@ else
 	@echo ""
 	@echo "Options:"
 	@echo "  TIMING=yes  Enable timing for commands"
-	@echo "  TIMING=no
+	@echo "  TIMING=no"
 endif
+
+all: $(HEX)
+
+run: $(HEX)
+	@echo "Add commands to run your program here"
+
+upload: $(HEX)
+	avrdude -c arduino -p m328p -P COM3 -b 115200 -U flash:w:$(HEX)
+
+debug: $(ELF)
+    avr-gdb $(ELF)
+
+clean:
+	rm -rf $(BUILD_DIR)
+
