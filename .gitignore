@@ -1,3 +1,6 @@
 # Ignore files starting with an underscore
 _*
 
+# Ignore the build directory and its contents
+build/*
+
