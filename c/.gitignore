@@ -1,0 +1,6 @@
+# Ignore files starting with an underscore
+_*
+
+# Ignore the debug build directory and its contents
+debug/*
+
