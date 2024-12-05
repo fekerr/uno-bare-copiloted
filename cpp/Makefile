@@ -14,10 +14,11 @@ BAUD := 115200
 
 # Compiler and flags
 CC := avr-gcc
-CFLAGS := -Os -DF_CPU=$(F_CPU) -mmcu=$(MCU)
+CFLAGS := -g -Os -DF_CPU=$(F_CPU) -mmcu=$(MCU)  # Added -g flag for debugging
 OBJCPY := avr-objcopy
 AVRDUDE := avrdude
 OBJDUMP := avr-objdump
+GDB := avr-gdb
 
 # Create build directory if it doesn't exist
 $(shell mkdir -p build)
@@ -72,8 +73,12 @@ debug_blink:
 debug_uartdbg:
 	@echo "Debugging uartdbg project..."
 
-debug_blinkanduart:
-	@echo "Debugging blinkanduart project..."
+debug_blinkanduart: build/blinkanduart.elf
+	$(GDB) build/blinkanduart.elf
+
+# Create ELF files for GDB
+build/blinkanduart.elf: build/blinkanduart.o
+	$(CC) $(CFLAGS) -o $@ $<
 
 # Clean target
 .PHONY: clean
