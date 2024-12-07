@@ -1,4 +1,6 @@
 #define F_CPU 16000000UL
+
+// TODO: BAUD needs to be defined before including setbaud.h
 #define BAUD 9600 // TODO what is the max for Arduino Uno?
 #include <avr/io.h>
 #include <util/setbaud.h>

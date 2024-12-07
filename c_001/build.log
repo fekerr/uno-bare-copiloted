@@ -1,0 +1,6 @@
+make[1]: Entering directory '/home/fekerr/src/baremetal/uno/c_001'
+avr-gcc -g -Os -DF_CPU=16000000UL -mmcu=atmega328p -Wall -Wextra -Wpedantic -Werror -Wshadow -Wpointer-arith -Wcast-align -Wwrite-strings -Wunreachable-code -Wdouble-promotion -ffunction-sections -fdata-sections -fverbose-asm -c main.c -o build/main.o
+avr-gcc -g -Os -DF_CPU=16000000UL -mmcu=atmega328p -Wall -Wextra -Wpedantic -Werror -Wshadow -Wpointer-arith -Wcast-align -Wwrite-strings -Wunreachable-code -Wdouble-promotion -ffunction-sections -fdata-sections -fverbose-asm -Wl,-Map,build/main.map,--cref -Wl,--gc-sections build/main.o -o build/main
+avr-objcopy -O ihex -R .eeprom build/main build/main.hex
+make[1]: *** No rule to make target 'build-assembly/main.c', needed by 'all'.  Stop.
+make[1]: Leaving directory '/home/fekerr/src/baremetal/uno/c_001'
