@@ -39,6 +39,8 @@ int main(void) {
     while (1) {
         uart_print("Loop running\n");
         _delay_ms(1000); // Delay to avoid spamming
+        uart_print("feature-branch test\n");
+        _delay_ms(1000); // Delay to avoid spamming
     }
     
     return 0;
