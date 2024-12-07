@@ -1,0 +1,22 @@
+name: CI/CD Pipeline
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Install dependencies
+      run: sudo apt-get install gcc-avr avr-libc make simavr
+
+    - name: Build with Makefile
+      run: make
+
+    - name: Run simulation
+      run: |
+        simavr -m atmega328p -f 16000000 main.hex
+
