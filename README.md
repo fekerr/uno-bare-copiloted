@@ -2,6 +2,8 @@
 
 **Date of Creation**: 20241204 Copilot & fekerr
 
+This is quick and dirty and is quite trivial. The problem is already solved. I just used Copilot to provide most of the source files with prompting.
+
 ## Overview
 This project demonstrates how to perform bare metal programming on an Arduino Uno clone. By directly manipulating the microcontroller's registers, we can control hardware without using the Arduino IDE or its libraries.
 
